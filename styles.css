@@ -1,0 +1,428 @@
+/* =========================
+   RESET + VARIABLES
+========================= */
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --muted: rgba(0,0,0,0.55);
+  --line: rgba(0,0,0,0.08);
+
+  --glass-bg: rgba(255,255,255,0.65);
+  --glass-border: rgba(0,0,0,0.12);
+  --glass-blur: blur(22px);
+
+  --radius: 18px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* =========================
+   PARALLAX BACKDROP
+========================= */
+.parallax {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+}
+
+.b1 { background: #eaeaea; top: -120px; left: -120px; }
+.b2 { background: #f0f0f0; top: 30%; right: -180px; }
+.b3 { background: #ededed; bottom: -200px; left: 25%; }
+
+/* subtle grain */
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* =========================
+   SECTIONS
+========================= */
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  /* space so dock doesn't cover content */
+  padding-bottom: 120px;
+}
+
+.panel {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 24px;
+}
+
+.content {
+  width: 100%;
+}
+
+/* =========================
+   TYPOGRAPHY (BOLD + CLEAN)
+========================= */
+.kicker {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+p {
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: #000;
+  border: 1px solid var(--line);
+}
+
+.ctaRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* =========================
+   GLASS CARDS
+========================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.card,
+.work {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+
+.list {
+  margin-top: 20px;
+  padding-left: 18px;
+}
+
+.list li {
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+/* =========================
+   PROJECT STACK
+========================= */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.workTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.06);
+  color: #000;
+}
+
+/* =========================
+   BOTTOM LIQUID GLASS NAV
+========================= */
+.dock {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px; /* tighter */
+  background: var(--glass-bg);
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+
+  z-index: 100;
+  isolation: isolate;
+
+  /* IMPORTANT for bubble layers */
+  position: fixed;
+  overflow: hidden;
+}
+
+/* inner glass shading layer (must exist in HTML: <span class="dockGlass"></span>) */
+.dockGlass {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.52)),
+    radial-gradient(circle at var(--mx, 50%) 35%, rgba(0,0,0,.10), transparent 55%),
+    radial-gradient(circle at calc(var(--mx, 50%) + 14%) 70%, rgba(0,0,0,.06), transparent 60%);
+
+  z-index: 0;
+}
+
+/* subtle moving highlight sweep */
+.dock::before {
+  content: "";
+  position: absolute;
+  inset: -80% -35%;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,.95), rgba(255,255,255,0) 55%);
+  opacity: .35;
+  transform: translateX(calc((var(--mx, 50%) - 50%) * 1.2)) rotate(12deg);
+  filter: blur(14px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* nav items */
+.dockItem {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 12px;      /* tight */
+  font-size: 13px;
+  line-height: 1;         /* KEY */
+  text-decoration: none;
+
+  color: rgba(0,0,0,0.55);
+  border-radius: 999px;
+
+  transition: transform .2s ease, color .2s ease;
+}
+
+.dockItem:hover {
+  color: #000;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.dockItem.active {
+  color: #000;
+  font-weight: 600;
+}
+
+/* the bubble pill (text-hugging) */
+.activePill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+
+  height: 28px; /* adjust to 26px if you want even tighter */
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+
+  background: rgba(255,255,255,.62);
+  border: 1px solid rgba(0,0,0,.12);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: 0 12px 34px rgba(0,0,0,.14);
+
+  transform: translateY(-50%) translateX(var(--pillX, 0px));
+  transition:
+    transform .42s cubic-bezier(.2,.9,.2,1),
+    width .42s cubic-bezier(.2,.9,.2,1);
+}
+
+/* liquid edge wobble */
+.activePill::before,
+.activePill::after {
+  content: "";
+  position: absolute;
+  inset: -18px -22px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 20% 40%, rgba(255,255,255,.95), rgba(255,255,255,0) 58%),
+    radial-gradient(circle at 80% 60%, rgba(255,255,255,.75), rgba(255,255,255,0) 62%);
+  filter: blur(14px);
+  opacity: .6;
+  animation: pillWobble 6.5s ease-in-out infinite;
+  mix-blend-mode: overlay;
+}
+
+.activePill::after {
+  opacity: .45;
+  animation-duration: 8.5s;
+  animation-direction: reverse;
+}
+
+@keyframes pillWobble {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50%      { transform: translate3d(10px,-6px,0) scale(1.02); }
+}
+
+/* =========================
+   SKILLS SECTION OVERRIDES
+   (THIS WILL VISIBLY CHANGE IT)
+========================= */
+
+#skills .skillsGrid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 26px;
+}
+
+@media (max-width: 800px){
+  #skills .skillsGrid{
+    grid-template-columns: 1fr;
+  }
+}
+
+#skills .skillCard{
+  padding: 24px 26px;
+  min-height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
+
+#skills .skillCard:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 22px 50px rgba(0,0,0,0.12);
+  border-color: rgba(0,0,0,0.16);
+}
+
+#skills .skillCard h3{
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+#skills .skillCard p{
+  font-size: 14px;
+  line-height: 1.45;
+  max-width: none;
+}
+
+/* =========================
+   SCROLL REVEAL ANIMATION
+========================= */
+
+.reveal{
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .55s ease, transform .55s ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* nicer for cards */
+.card.reveal{
+  transform: translateY(18px) scale(0.995);
+}
+.card.reveal.is-visible{
+  transform: translateY(0) scale(1);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .reveal.is-visible{
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
